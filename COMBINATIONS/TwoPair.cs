@@ -12,23 +12,11 @@ namespace Balatro2.Combinations
         public static bool IsMatch(IEnumerable<Card> cards)
         {
             if (cards == null) return false;
-
-            // Build simple frequency map of card values
-            var counts = new Dictionary<CardValue, int>();
-            foreach (var card in cards)
-            {
-                if (counts.ContainsKey(card.Value)) counts[card.Value]++;
-                else counts[card.Value] = 1;
-            }
-
-            // Count how many distinct values appear exactly twice
-            int pairCount = 0;
-            foreach (var kv in counts)
-            {
-                if (kv.Value == 2) pairCount++;
-            }
-
-            return pairCount == 2;
+            var groups = cards.GroupBy(c => c.Value).Select(g => new { Value = g.Key, Count = g.Count() }).ToList();
+            // count how many distinct values appear at least twice
+            int pairsOrBetter = groups.Count(g => g.Count >= 2);
+            // true when there are at least two distinct values that each occur at least twice
+            return pairsOrBetter >= 2;
         }
     }
 }

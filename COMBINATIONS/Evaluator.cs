@@ -12,27 +12,28 @@ namespace Balatro2.Combinations
         public static (Combination? combo, int points) Evaluate(IEnumerable<Card> cards)
         {
             if (cards == null) return (null, 0);
-
-            // Check in priority order (highest to lowest).
-            if (TwoPair.IsMatch(cards))
+            // Check combinations in priority order (highest -> lowest).
+            var detectors = new (Func<IEnumerable<Card>, bool> Detector, Combination Combo)[]
             {
-                return (Combination.TwoPair, Points.GetPoints(Combination.TwoPair));
+                //(RoyalFlush.IsMatch, Combination.RoyalFlush),
+                //(StraightFlush.IsMatch, Combination.StraightFlush),
+                (FourOfKind.IsMatch, Combination.FourOfKind),
+                (FullHouse.IsMatch, Combination.FullHouse),
+                //(Flush.IsMatch, Combination.Flush),
+                //(Straight.IsMatch, Combination.Straight),
+                (ThreeOfKind.IsMatch, Combination.ThreeOfKind),
+                (TwoPair.IsMatch, Combination.TwoPair),
+                (OnePair.IsMatch, Combination.OnePair),
+            };
+
+            foreach (var (detector, combo) in detectors)
+            {
+                if (detector(cards))
+                    return (combo, Points.GetPoints(combo));
             }
 
-            // OnePair next (detect any value group with count >= 2)
-            var groups = cards.GroupBy(c => c.Value).Select(g => g.Count()).ToList();
-            if (groups.Any(cnt => cnt >= 2))
-            {
-                return (Combination.OnePair, Points.GetPoints(Combination.OnePair));
-            }
-
-            // HighCard fallback
-            if (HighCard.IsMatch(cards))
-            {
-                return (Combination.HighCard, Points.GetPoints(Combination.HighCard));
-            }
-
-            return (null, 0);
+            // fallback to high card
+            return (Combination.HighCard, Points.GetPoints(Combination.HighCard));
         }
     }
 }

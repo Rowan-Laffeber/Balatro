@@ -12,3 +12,4 @@ C:\Users\Eigenaar\source\repos\BALATROKAART\Balatro2\obj\Debug\net10.0\refint\Ba
 C:\Users\Eigenaar\source\repos\BALATROKAART\Balatro2\obj\Debug\net10.0\Balatro2.pdb
 C:\Users\Eigenaar\source\repos\BALATROKAART\Balatro2\obj\Debug\net10.0\Balatro2.genruntimeconfig.cache
 C:\Users\Eigenaar\source\repos\BALATROKAART\Balatro2\obj\Debug\net10.0\ref\Balatro2.dll
+C:\Users\Eigenaar\source\repos\BALATROKAART\Balatro2\obj\Debug\net10.0\Balatro2.sourcelink.json
